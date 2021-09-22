@@ -67,7 +67,6 @@ RSpec.describe 'Merchant Items Index Page' do
         click_on("Disable Item")
         expect(current_path).to eq("/merchants/#{merchant.id}/items")
       end
-      save_and_open_page
       within("#Disabled") do
         expect(page).to have_content(item_2.name)
         expect(page).to have_content(item_1.name)
