@@ -8,18 +8,28 @@
 Little Esty Shop allowed us to practice creating migrations to handle one to many, as well as many to many database relationships. We have used Ruby on rails to build our app with CRUD functionality. This rails app utilizes both class and variable methods in order to best work with the data provided. This Applicaiton has been developed using Test Driven Development which has allowed up to ensure we are testing all features, and models as they are being created allowing for high test coverage globally.
 
 ## Tools Utilized
-- Ruby on rails
-- Utilize advanced routing techniques including namespacing to organize and group like functionality together.
-- Utilize advanced active record techniques to perform complex database queries
-- Practice consuming a public API while utilizing POROs as a way to apply OOP principles to organize code
+- Ruby 
+- Rails
+- Heroku
+- HTML
+- Gems: Faraday, Rspec, SimpleCov, Capybara
 
-## Requirements
-- must use Rails 5.2.x
-- must use PostgreSQL
-- all code must be tested via feature tests and model tests, respectively
-- must use GitHub branching, team code reviews via GitHub comments, and github projects to track progress on user stories
-- must include a thorough README to describe the project
-- must deploy completed code to Heroku
+## Setup
+ To use this application please follow the following steps below:
+1. Ruby Version
+` ❯ ruby -v
+   ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-darwin20] `
+2. Rails Version
+  `❯ rails -v
+     Rails 5.2.6`
+3. Database set up
+`rails db:{drop,create,migrate}`
+4. Load CSV files
+`rake csv_load:all`
+5. Local deployment please put the following command within your terminal 
+`rails s`
+6. then locate to the following url:
+`localhost:3000`
 
 ## Setup
 
