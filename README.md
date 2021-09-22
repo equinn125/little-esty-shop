@@ -7,8 +7,8 @@
 
 Little Esty Shop allowed us to practice creating migrations to handle one to many, as well as many to many database relationships. We have used Ruby on rails to build our app with CRUD functionality. This rails app utilizes both class and variable methods in order to best work with the data provided. This Applicaiton has been developed using Test Driven Development which has allowed up to ensure we are testing all features, and models as they are being created allowing for high test coverage globally.
 
-## Learning Goals
-- Practice designing a normalized database schema and defining model relationships
+## Tools Utilized
+- Ruby on rails
 - Utilize advanced routing techniques including namespacing to organize and group like functionality together.
 - Utilize advanced active record techniques to perform complex database queries
 - Practice consuming a public API while utilizing POROs as a way to apply OOP principles to organize code
