@@ -83,6 +83,41 @@ RSpec.describe Merchant do
     end
   end
 
+  describe 'items ready to be shipped' do
+    before :each do
+      @merchant_1 = Merchant.create!(name: "Cool Shirts")
+
+      # Item 1 produced 2400 revenue
+      @item_1 = @merchant_1.items.create!(name: "Dog", description: "Dog shirt", unit_price: 1400)
+      @customer_1 = Customer.create(first_name: 'Bob', last_name: 'Johnson')
+      @invoice_1 = @customer_1.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
+      @invoice_item_1a = @invoice_1.invoice_items.create!(item: @item_1, quantity: 1, unit_price: 1400, status: "pending")
+      @invoice_item_1b = @invoice_1.invoice_items.create!(item: @item_1, quantity: 1, unit_price: 1000, status: "packaged")
+      @transaction_1 = @invoice_1.transactions.create!(result: "success")
+
+      # Item 2 produced 5400 revenue the quantity of invoice_item_2b is 4 to demonstrate the revenue calculation
+      @item_2 = @merchant_1.items.create!(name: "burger", description: "burger shirt", unit_price: 1400)
+      @customer_1 = Customer.create(first_name: 'Bob', last_name: 'Johnson')
+      @invoice_2 = @customer_1.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
+      @invoice_item_2a = @invoice_2.invoice_items.create!(item: @item_2, quantity: 1, unit_price: 1400, status: "pending")
+      @invoice_item_2b = @invoice_2.invoice_items.create!(item: @item_2, quantity: 4, unit_price: 1000, status: "packaged")
+      @transaction_2 = @invoice_2.transactions.create!(result: "success")
+
+      # Item 3 produced 4000 revenue. Transaction 3 failed but because there is a success for invoice 3 it will be counted towards total revenue
+      @item_3 = @merchant_1.items.create!(name: "Omg", description: "Omg shirt", unit_price: 1400)
+      @customer_1 = Customer.create(first_name: 'Bob', last_name: 'Johnson')
+      @invoice_3 = @customer_1.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
+      @invoice_item_3a = @invoice_3.invoice_items.create!(item: @item_3, quantity: 2, unit_price: 1000, status: "pending")
+      @invoice_item_3b = @invoice_3.invoice_items.create!(item: @item_3, quantity: 2, unit_price: 1000, status: "packaged")
+      @transaction_3 = @invoice_3.transactions.create!(result: "failed")
+      @transaction_4 = @invoice_3.transactions.create!(result: "success")
+    end
+
+    it 'returns the most popular items by revenue generated' do
+      expect(@merchant_1.items_ready_to_ship).to eq([@item_1, @item_1, @item_2, @item_2, @item_3, @item_3])
+    end
+  end
+
   describe 'top items per merchant' do
     before :each do
       @merchant_1 = Merchant.create!(name: "Cool Shirts")
