@@ -22,7 +22,7 @@
   <section id='Enabled'>
   <%@merchant.items_enabled_list.each do |item| %>
     <ul>
-      <div id="Item-<%= item.id %>">
+      <div id="enabled_item-<%= item.id %>">
       <li><%= link_to "#{item.name}", merchant_item_path(@merchant, item.id) %></li>
       <li> <%= item.status  %> </li>
       <%= button_to 'Disable Item', "/merchants/#{@merchant.id}/items/#{item.id}", method: :patch, params:{status: 'disabled'}, local: true %>
@@ -35,15 +35,14 @@
   <section id='Disabled'>
   <%@merchant.items_disabled_list.each do |item| %>
     <ul>
-      <div id="Item-<%= item.id %>">
+      <div id="disabled_item-<%= item.id %>">
       <li><%= link_to "#{item.name}", merchant_item_path(@merchant, item.id) %></li>
       <li> <%= item.status  %> </li>
       <%= button_to 'Enable Item', merchant_item_path(@merchant, item), method: :patch, params:{status: 'enabled'}, local: true %>
       </div>
     </ul>
-  </section>
   <% end %>
-
+</section>
 </section>
 
 <%= link_to "Create new item", new_merchant_item_path(@merchant) %>

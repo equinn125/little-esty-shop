@@ -33,7 +33,7 @@ RSpec.describe Invoice do
       item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
       invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
       invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 5, unit_price: 1000, status: "packaged")
-      expect(invoice_1.total_revenue).to eq(11000)
+      expect(invoice_1.total_revenue_invoice_items).to eq(11000)
     end
   end
 
