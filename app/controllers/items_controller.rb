@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
 
     def create
       merchant = Merchant.find(params[:merchant_id])
-      item = merchant.items.create(item_params)
+      item = merchant.items.new(item_params)
       if item.save
         redirect_to merchant_items_path(merchant)
         flash[:alert] = "New item for #{merchant.name} has been created."

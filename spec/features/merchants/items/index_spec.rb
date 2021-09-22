@@ -44,11 +44,9 @@ RSpec.describe 'Merchant Items Index Page' do
       item_1 = merchant.items.create!(name: "Shirt", description: "A blue shirt", unit_price: 30, status: 'disabled' )
       item_2 = merchant.items.create!(name: "Pants", description: "Black pants", unit_price: 50, status: 'enabled')
 
-  
       visit (merchant_items_path(merchant))
 
-      expect(page).to have_button("Enable Item")
-      within("#Item-#{item_1.id}") do
+      within("#disabled_item-#{item_1.id}") do
         click_on("Enable Item")
         expect(current_path).to eq("/merchants/#{merchant.id}/items")
       end
@@ -60,20 +58,18 @@ RSpec.describe 'Merchant Items Index Page' do
 
     it 'has a button to disable the item status' do
       merchant = Merchant.create!(name: "Tony")
-      item_1 = merchant.items.create!(name: "Pants", description: "Black pants", unit_price: 50, status: 'enabled')
-      item_2 = merchant.items.create!(name: "Shirt", description: "A blue shirt", unit_price: 30, status: 'disabled')
+      item_1 = merchant.items.create!(name: "Shirt", description: "A blue shirt", unit_price: 30, status: 'disabled' )
+      item_2 = merchant.items.create!(name: "Pants", description: "Black pants", unit_price: 50, status: 'enabled')
 
-  
       visit(merchant_items_path(merchant))
-      
 
-      expect(page).to have_button("Enable Item")
-
-      within("#Item-#{item_1.id}") do
+      within("#enabled_item-#{item_2.id}") do
         click_on("Disable Item")
         expect(current_path).to eq("/merchants/#{merchant.id}/items")
       end
+      save_and_open_page
       within("#Disabled") do
+        expect(page).to have_content(item_2.name)
         expect(page).to have_content(item_1.name)
       end
     end
@@ -130,8 +126,8 @@ RSpec.describe 'Merchant Items Index Page' do
       @invoice_7 = @customer_1.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
       @invoice_item_7a = @invoice_7.invoice_items.create!(item: @item_5, quantity: 1, unit_price: 1000, status: "pending")
       @invoice_item_7b = @invoice_7.invoice_items.create!(item: @item_5, quantity: 1, unit_price: 1000, status: "packaged")
-      @transaction_8 = @invoice_7.transactions.create!(result: "success")  
-      
+      @transaction_8 = @invoice_7.transactions.create!(result: "success")
+
       visit(merchant_items_path(@merchant_1))
     end
 

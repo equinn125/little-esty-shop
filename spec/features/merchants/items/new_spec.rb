@@ -22,5 +22,12 @@ RSpec.describe 'new item page' do
     expect(current_path).to eq(merchant_items_path(@merchant))
     expect(page).to have_content("New item for #{@merchant.name} has been created.")
     expect(page).to have_content("Nugget")
+
+    visit new_merchant_item_path(@merchant)
+    fill_in(:item_name, with: "Nugget")
+    fill_in(:item_description, with: "A nugget")
+    click_button "Submit"
+    expect(current_path).to eq(new_merchant_item_path(@merchant))
+    expect(page).to have_content("Error creating item. Please try again.")
   end
 end
