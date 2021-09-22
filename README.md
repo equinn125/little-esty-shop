@@ -1,5 +1,5 @@
 # Little Esty Shop
-![image](https://user-images.githubusercontent.com/83930724/134262543-10ea9310-5d10-4c65-b735-0ed9eab75afc.png)
+![Screen Shot 2021-09-22 at 3 35 38 PM](https://user-images.githubusercontent.com/83930724/134426313-23d19857-c6e9-44da-b368-d66ea26c7ce9.png)
 
 ## Overview
 
