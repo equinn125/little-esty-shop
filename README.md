@@ -28,8 +28,9 @@ Little Esty Shop allowed us to practice creating migrations to handle one to man
 `rake csv_load:all`
 5. Local deployment please put the following command within your terminal 
 `rails s`
-6. then locate to the following url:
+6. Then navigate to:
 `localhost:3000`
+7. Alternatively the heroku deployment can be found here: url:https://little-esty-shop987.herokuapp.com/admin/merchants
 
 ## Setup
 
