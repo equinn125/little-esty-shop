@@ -30,7 +30,7 @@ Little Esty Shop allowed us to practice creating migrations to handle one to man
 `rails s`
 6. Then navigate to:
 `localhost:3000`
-7. Alternatively the heroku deployment can be found here: url:https://little-esty-shop987.herokuapp.com/admin/merchants
+7. Alternatively the heroku deployment can be found here:[https://little-esty-shop987.herokuapp.com/admin/merchants]
 
 ## Setup
 
