@@ -39,7 +39,7 @@ Little Esty Shop allowed us to practice creating migrations to handle one to man
 
 ## Contributors
 
-1. [Kelsey Thompson](https://github.com/knthompson2)
-1. [Ryan Teske](https://github.com/Rteske)
-1. [Erin Quinn](https://github.com/equinn125?tab=repositories)
-1. [Luis Arroyo](https://github.com/dat1guyluigi)
+. [Kelsey Thompson](https://github.com/knthompson2)
+. [Ryan Teske](https://github.com/Rteske)
+. [Erin Quinn](https://github.com/equinn125?tab=repositories)
+. [Luis Arroyo](https://github.com/dat1guyluigi)
