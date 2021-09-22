@@ -32,21 +32,14 @@ Little Esty Shop allowed us to practice creating migrations to handle one to man
 `localhost:3000`
 7. Alternatively the heroku deployment can be found [here](https://little-esty-shop987.herokuapp.com/admin/merchants)
 
-## Setup
+## Features
+- Github API to show coninous real time metrics for contribution, pull requrests, and total commits
+- Merchant and Admin Dashboards
 
-This project requires Ruby 2.7.2.
 
-* Fork this repository
-* Clone your fork
-* From the command line, install gems and set up your DB:
-    * `bundle`
-    * `rails db:create`
-* Run the test suite with `bundle exec rspec`.
-* Run your development server with `rails s` to see the app in action.
+## Contributors
 
-## Phases
-
-1. [Database Setup](./doc/db_setup.md)
-1. [User Stories](./doc/user_stories.md)
-1. [Extensions](./doc/extensions.md)
-1. [Evaluation](./doc/evaluation.md)
+1. [Kelsey Thompson](https://github.com/knthompson2)
+1. [Ryan Teske](https://github.com/Rteske)
+1. [Erin Quinn](https://github.com/equinn125?tab=repositories)
+1. [Luis Arroyo](https://github.com/dat1guyluigi)
