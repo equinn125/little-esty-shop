@@ -34,7 +34,7 @@ RSpec.describe Merchant do
       @invoice_item_5 = @invoice_3.invoice_items.create!(item: @item_1, quantity: 1, unit_price: 1400, status: "pending")
       @invoice_item_6 = @invoice_3.invoice_items.create!(item: @item_1, quantity: 2, unit_price: 1400, status: "pending")
       @transaction_2 = @invoice_3.transactions.create!(result: "success")
-      
+
       # Customer 3 has 1 successful transaction and 1 failure the failure is to test that it counts only successful transactions
       @customer_3 = Customer.create!(first_name: 'Micheal', last_name: 'Johnson')
       @invoice_4 = @customer_3.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
@@ -77,14 +77,14 @@ RSpec.describe Merchant do
       @item_2 = Item.create!(name: "Old shirt", description: "less ugly shirt", unit_price: 1000, merchant_id: @merchant_2.id)
     end
 
-    it 'returns 5 best customers inorder of most transactions' do 
-      
+    it 'returns 5 best customers inorder of most transactions' do
+
       expect(@merchant_1.top_5_customers).to eq([@customer_4, @customer_1, @customer_2, @customer_3, @customer_6])
     end
   end
 
   describe 'top items per merchant' do
-    before :each do 
+    before :each do
       @merchant_1 = Merchant.create!(name: "Cool Shirts")
 
       # Item 1 produced 2400 revenue
@@ -206,7 +206,7 @@ RSpec.describe Merchant do
     describe 'class methods' do
       it 'returns the top 5 merchants based on revenue' do
 
-        expect(Merchant.top_5_merchants).to eq([@merchant_3, @merchant_5, @merchant_1, @merchant_6, @merchant_2])
+        expect(Merchant.top_5_merchants).to eq([@merchant_1, @merchant_3, @merchant_5, @merchant_6, @merchant_2])
       end
       it 'returns a list of all enabled merchants' do
         expect(Merchant.enabled_list).to eq([@merchant_1,@merchant_3, @merchant_5, @merchant_6 ])
@@ -222,5 +222,5 @@ RSpec.describe Merchant do
         expect(@merchant_1.merchant_best_day_ever).to eq(@invoice_7.created_at.strftime("%m/%d/%y"))
       end
     end
-  end 
+  end
 end

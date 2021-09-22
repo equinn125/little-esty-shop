@@ -21,5 +21,10 @@ RSpec.describe InvoiceItem do
       @invoice_item_3 = InvoiceItem.create!(item: @item_3, invoice: @invoice_3, quantity: 3, unit_price: 1200, status: "shipped")
       @invoice_item_4 = InvoiceItem.create!(item: @item_3, invoice: @invoice_2, quantity: 3, unit_price: 1200, status: "shipped")
     end
+
+    it 'calculates total revenue for a invoice item' do
+      expect(@invoice_item_1.total_revenue).to eq(6000)
+    end
   end
+
 end

@@ -17,13 +17,13 @@ class Merchant < ApplicationRecord
      where(status: 1)
    end
 
-  def items_disabled_list 
+  def items_disabled_list
     Item.select("items.*")
     .where(items: {status: 1})
     .where("merchant_id = ?", self.id)
   end
 
-  def items_enabled_list 
+  def items_enabled_list
     Item.select("items.*")
     .where(items: {status: 0})
     .where("merchant_id = ?", self.id)
@@ -38,7 +38,7 @@ class Merchant < ApplicationRecord
    #   .limit(5)
    #
    # end
-  
+
 
   def top_5_items
     items.joins( invoices: :transactions )
@@ -52,7 +52,7 @@ class Merchant < ApplicationRecord
   def top_5_customers
     Customer.select("DISTINCT customers.*, count(transactions) as transactions_per")
     .joins(invoices: :transactions)
-    .where("invoices.id IN (?)", 
+    .where("invoices.id IN (?)",
     Invoice.joins(:items)
     .where("items.merchant_id = ?", self.id)
     .pluck("invoices.id").uniq
@@ -74,7 +74,7 @@ class Merchant < ApplicationRecord
   def self.top_5_merchants
     joins(items: {invoice_items: {invoice: :transactions}})
     .select("merchants.*, SUM(invoice_items.unit_price * invoice_items.quantity) AS revenue")
-    .where("transactions.result = ?", "success")
+    .where("transactions.result = ?", 0)
     .group("merchants.id")
     .order(revenue: :desc)
     .limit(5)
