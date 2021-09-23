@@ -28,8 +28,8 @@
       <%= button_to 'Disable Item', "/merchants/#{@merchant.id}/items/#{item.id}", method: :patch, params:{status: 'disabled'}, local: true %>
       </div>
     </ul>
-  </section>
   <% end %>
+</section>
 
   <h3>Disabled Items</h3>
   <section id='Disabled'>

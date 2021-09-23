@@ -21,12 +21,14 @@ class Merchant < ApplicationRecord
     Item.select("items.*")
     .where(items: {status: 1})
     .where("merchant_id = ?", self.id)
+    .order(:name)
   end
 
   def items_enabled_list
     Item.select("items.*")
     .where(items: {status: 0})
     .where("merchant_id = ?", self.id)
+    .order(:name)
   end
 
    # def self.top_admin_5_customers

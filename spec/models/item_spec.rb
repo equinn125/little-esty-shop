@@ -14,7 +14,7 @@ RSpec.describe Item do
 
   it 'can return list of items enabled per merchant' do
     @merchant_1 = Merchant.create!(name: "Cool Shirts")
- 
+
     # Item 1 will be enabled because by default items will be enabled
     @item_1 = @merchant_1.items.create!(name: "Dog", description: "Dog shirt", unit_price: 1400)
     @customer_1 = Customer.create(first_name: 'Bob', last_name: 'Johnson')
