@@ -5,7 +5,7 @@
 <section id="Top_5_Items">
   <h3>Top Items</h3>
   <section id="Top Items">
-  <%= @merchant.top_5_items.each do |item| %>
+  <% @merchant.top_5_items.each do |item| %>
     <ol>
       <div id="Top-Item-<%= item.id %>">
         <li><%= item.name %></li>
