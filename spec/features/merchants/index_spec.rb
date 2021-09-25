@@ -6,11 +6,11 @@ RSpec.describe 'Merchant Dashboard' do
             @merchant = Merchant.create!({name: "Doggy"})
             visit(merchant_dashboard_index_path(@merchant))
         end
-        
+
         it 'can display merchant as the title and has links to its items and invoices' do
-            expect(page).to have_content("Doggy") 
+            expect(page).to have_content("Doggy")
             expect(page).to have_link("Items")
-            expect(page).to have_link("Invoices")           
+            expect(page).to have_link("Invoices")
         end
 
         it 'can display link to merchants Items' do
@@ -46,7 +46,7 @@ RSpec.describe 'Merchant Dashboard' do
             @invoice_item_5 = @invoice_3.invoice_items.create!(item: @item_1, quantity: 1, unit_price: 1400, status: "pending")
             @invoice_item_6 = @invoice_3.invoice_items.create!(item: @item_1, quantity: 2, unit_price: 1400, status: "pending")
             @transaction_2 = @invoice_3.transactions.create!(result: "success")
-            
+
             # Customer 3 has 1 successful transaction and 1 failure the failure is to test that it counts only successful transactions
             @customer_3 = Customer.create!(first_name: 'Micheal', last_name: 'Johnson')
             @invoice_4 = @customer_3.invoices.create!(status: 'completed', created_at: "2012-03-25 09:54:09 UTC")
@@ -102,7 +102,7 @@ RSpec.describe 'Merchant Dashboard' do
             within("#Customer-#{@customer_4.id}") do
                 expect(page).to have_content("3 Successful Transactions")
             end
-        end 
+        end
     end
 
     describe 'items ready to be shipped' do
@@ -114,8 +114,8 @@ RSpec.describe 'Merchant Dashboard' do
             @item_4 = @merchant.items.create!({name: "f burger", description: "eat the f", unit_price: 20000})
             @item_5 = @merchant.items.create!({name: "suck burger", description: "eat the suck", unit_price: 20000})
             @item_6 = @merchant.items.create!({name: "goop", description: "dog", unit_price: 34000})
-      
-      
+
+
             @customer_1 = Customer.create!({first_name: "Dog", last_name: "Man"})
             @invoice_1 = @customer_1.invoices.create!({status: "in progress"})
             @pair_1 = @invoice_1.invoice_items.create!({item_id: @item_1.id, quantity: 2, unit_price: 13435, status: "packaged"})
@@ -123,16 +123,16 @@ RSpec.describe 'Merchant Dashboard' do
             @pair_2 = @invoice_2.invoice_items.create!({item_id: @item_2.id, quantity: 1, unit_price: 13435, status: "packaged"})
             @invoice_3 = @customer_1.invoices.create!({status: "in progress"})
             @pair_3 = @invoice_3.invoice_items.create!({item_id: @item_3.id, quantity: 2, unit_price: 13435, status: "packaged"})
-      
+
             @customer_2 = Customer.create!({first_name: "Fuck", last_name: "Dog"})
-      
+
             @invoice_4 = @customer_2.invoices.create!({status: "in progress"})
             @pair_4 = @invoice_4.invoice_items.create!({item_id: @item_4.id, quantity: 1, unit_price: 13435, status: "packaged"})
-      
+
             @invoice_5 = @customer_2.invoices.create!({status: "in progress"})
             @pair_5 = @invoice_5.invoice_items.create!({item_id: @item_5.id, quantity: 1, unit_price: 13435, status: "pending"})
 
-            visit(merchant_dashboard_index_path(@merchant))  
+            visit(merchant_dashboard_index_path(@merchant))
         end
 
         it 'has a section with items ready to ship from that merchant' do
@@ -156,5 +156,13 @@ RSpec.describe 'Merchant Dashboard' do
             expect(@item_2.name).to appear_before(@item_3.name)
             expect(@item_3.name).to appear_before(@item_4.name)
         end
+    end
+
+    it 'has a link to the bulk discounts index' do
+        merchant = Merchant.create!({name: "Doggy"})
+        visit(merchant_dashboard_index_path(merchant))
+        expect(page).to have_link("View Discounts")
+        click_link "View Discounts"
+        expect(current_path).to eq("/merchants/#{merchant.id}/discounts")
     end
 end

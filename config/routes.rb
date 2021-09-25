@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :items
     resources :invoices, only: [:index, :show]
     resources :invoice_items, only: [:update]
+    resources :discounts
   end
 
   get '/admin', to: 'admin#index'

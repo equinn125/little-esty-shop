@@ -9,6 +9,7 @@ RSpec.describe Merchant do
     it {should have_many :items}
     it {should have_many(:invoice_items).through(:items)}
     it {should have_many(:invoices).through(:invoice_items)}
+    it {should have_many :discounts}
   end
 
   describe 'top 5 customers per merchant' do
