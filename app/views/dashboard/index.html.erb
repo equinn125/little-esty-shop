@@ -1,5 +1,5 @@
 <h1><%= @merchant.name %></h1>
-<%= link_to "View Discounts", "/merchants/#{@merchant.id}/discounts"  %>
+<%= link_to "View Discounts", merchant_discounts_path(@merchant)  %>
 <%= link_to "Items", merchant_items_path %>
 <%= link_to "Invoices", merchant_invoices_path(@merchant) %>
 
