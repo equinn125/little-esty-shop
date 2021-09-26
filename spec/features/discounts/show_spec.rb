@@ -17,5 +17,6 @@ RSpec.describe 'discount show page' do
 
   it 'has a link to edit the discount' do
     click_link "Edit Discount"
+    expect(current_path).to eq(edit_merchant_discount_path(@merchant, @discount_1))
   end
 end
