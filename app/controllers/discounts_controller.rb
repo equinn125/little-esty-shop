@@ -10,6 +10,21 @@ class DiscountsController < ApplicationController
     @discount = Discount.find(params[:id])
   end
 
+  def new
+    @discount = Discount.new
+  end
+
+  def create
+    discount = @merchant.discounts.create(discount_params)
+    if discount.save
+      redirect_to merchant_discounts_path(@merchant)
+      flash[:alert] = "New Discount has been created"
+    else
+      redirect_to new_merchant_discount_path(@merchant)
+      flash[:alert] = "Error: #{error_message(discount.errors)}"
+    end
+  end
+
   def edit
     @discount = Discount.find(params[:id])
   end
