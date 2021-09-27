@@ -12,5 +12,8 @@ RSpec.describe 'the edit discount page' do
     fill_in :Percentage, with: 20
     fill_in :Threshold, with: 4
     click_button "Submit"
+    expect(current_path).to eq(merchant_discount_path(@merchant, @discount_1))
+    expect(page).to have_content(20)
+    expect(page).to have_content('Discount has been updated')
   end
 end
