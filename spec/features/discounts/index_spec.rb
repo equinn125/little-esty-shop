@@ -28,6 +28,7 @@ RSpec.describe 'Discount index' do
   end
 
   it 'has a link to delete a discount' do
+    save_and_open_page
     within "#discount-#{@discount_1.id}" do
       click_link "Delete Discount"
     end

@@ -6,7 +6,7 @@
   <li>Name: <%= link_to "#{discount.name}", merchant_discount_path(@merchant, discount) %></li>
   <li>Percentage: <%= discount.percentage %></li>
   <li>Quantity: <%=  discount.threshold %></li>
-  <%= link_to "Delete Discount", merchant_discount_path(@merchant, discount), method: :delete %>
+  <li><%= link_to "Delete Discount", merchant_discount_path(@merchant, discount), method: :delete %></li>
 </section>
 </ul>
 <% end %>
