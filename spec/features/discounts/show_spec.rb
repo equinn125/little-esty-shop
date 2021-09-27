@@ -10,9 +10,13 @@ RSpec.describe 'discount show page' do
   end
 
   it 'shows all bulk discount attributes' do
-    save_and_open_page
     expect(page).to have_content(@discount_1.name)
     expect(page).to have_content(@discount_1.percentage)
     expect(page).to have_content(@discount_1.threshold)
+  end
+
+  it 'has a link to edit the discount' do
+    click_link "Edit Discount"
+    expect(current_path).to eq(edit_merchant_discount_path(@merchant, @discount_1))
   end
 end
