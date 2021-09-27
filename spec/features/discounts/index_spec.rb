@@ -26,4 +26,11 @@ RSpec.describe 'Discount index' do
     click_link "Create Discount"
     expect(current_path).to eq(new_merchant_discount_path(@merchant))
   end
+
+  it 'has a link to delete a discount' do
+    within "#discount-#{@discount_1.id}" do
+      click_link "Delete Discount"
+    end
+    expect(page).to_not have_content(@discount_1.name)
+  end
 end
