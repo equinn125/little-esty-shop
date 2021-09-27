@@ -16,4 +16,13 @@ RSpec.describe 'the edit discount page' do
     expect(page).to have_content(20)
     expect(page).to have_content('Discount has been updated')
   end
+
+  it 'has a sad path' do
+    fill_in :Name, with: 'Discount 1'
+    fill_in :Percentage, with: 20
+    fill_in(:Threshold, with: '         ')
+    click_button "Submit"
+    expect(current_path).to eq(edit_merchant_discount_path(@merchant, @discount_1))
+    expect(page).to have_content("Error: Threshold can't be blank")
+  end
 end

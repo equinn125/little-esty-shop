@@ -20,7 +20,7 @@ class DiscountsController < ApplicationController
     redirect_to  merchant_discount_path(@merchant, discount)
     flash[:alert] = "Discount has been updated"
   else
-    redirect_to "/admin/merchants/#{merchant.id}/edit"
+    redirect_to edit_merchant_discount_path(@merchant, discount)
     flash[:alert] = "Error: #{error_message(discount.errors)}"
     end
   end
