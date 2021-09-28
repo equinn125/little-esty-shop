@@ -19,6 +19,11 @@
                 <%= f.select :status, ['shipped', 'packaged', 'pending'], selected: invoice_item.status %>
                 <%= f.submit "Update Status" %>
                 <% end %>
+                <% if invoice_item.find_discount.nil? %>
+                <p>Not Applicable</p>
+                <%else%>
+                <%= link_to "#{invoice_item.find_discount.name}", merchant_discount_path(@merchant, invoice_item.find_discount) %>
+                <% end %>
         </div>
         </ul>
     <% end %>
