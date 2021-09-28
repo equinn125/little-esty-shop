@@ -2,6 +2,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
   has_many :merchants, through: :item
+
   validates_presence_of :status
 
   enum status: {
@@ -11,5 +12,21 @@ class InvoiceItem < ApplicationRecord
   }
 
   def create
+  end
+
+  def revenue
+    quantity * unit_price
+  end
+
+  def find_discount
+    item.merchant
+    .discounts
+    .where('threshold <= ?', quantity)
+    .order(percentage: :desc)
+    .first
+  end
+
+  def discount_unit_price
+     revenue * (1- find_discount.percentage.fdiv(100))
   end
 end

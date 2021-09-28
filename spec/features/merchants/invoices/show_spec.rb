@@ -10,6 +10,7 @@ RSpec.describe 'Merchant Invoice show page' do
     @invoice_1 = @customer_1.invoices.create!(status: 0)
     @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 3, status: 2, unit_price: 40 )
     @invoice_item_2 = InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 4, status: 1, unit_price: 40 )
+    @discount_1 = @merchant.discounts.create!(name: 'Discount 1', percentage: 25, threshold: 4)
 
 
     visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
@@ -26,9 +27,9 @@ RSpec.describe 'Merchant Invoice show page' do
 
   it 'returns the total revenue from all items' do
     visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
-    
+
     expect(page).to have_content(@invoice_1.total_revenue)
-  end 
+  end
 
   it 'displays all the items on the invoice' do
     expect(page).to have_content(@item_1.name)
@@ -49,5 +50,11 @@ RSpec.describe 'Merchant Invoice show page' do
       expect(current_path).to eq(merchant_invoice_path(@merchant, @invoice_1))
       expect(page).to have_content("packaged")
     end
+  end
+
+  it 'returns the total discounted revenue' do
+    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
+    expect(page).to have_content(@invoice_1.total_revenue_discounted)
+    save_and_open_page
   end
 end
