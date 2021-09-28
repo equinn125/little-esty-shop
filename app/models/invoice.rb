@@ -26,7 +26,12 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_discounted
-    binding.pry
+    invoice_items.sum do |ii|
+      if ii.find_discount
+        ii.discount_unit_price
+      else
+        ii.revenue
+      end
+    end
   end
-
 end

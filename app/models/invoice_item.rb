@@ -26,15 +26,7 @@ class InvoiceItem < ApplicationRecord
     .first
   end
 
-  def discount?
-    find_discount != nil
-  end
-
-  def discount_price
-      if discount?
+  def discount_unit_price
      revenue * (1- find_discount.percentage.fdiv(100))
-   else
-     revenue
-    end
   end
 end
