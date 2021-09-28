@@ -14,9 +14,6 @@ class InvoiceItem < ApplicationRecord
   def create
   end
 
-  def revenue
-    quantity * unit_price
-  end
 
   def find_discount
     item.merchant
@@ -24,6 +21,10 @@ class InvoiceItem < ApplicationRecord
     .where('threshold <= ?', quantity)
     .order(percentage: :desc)
     .first
+  end
+
+  def revenue
+    (quantity * unit_price)
   end
 
   def discount_unit_price

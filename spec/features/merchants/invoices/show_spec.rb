@@ -55,6 +55,16 @@ RSpec.describe 'Merchant Invoice show page' do
   it 'returns the total discounted revenue' do
     visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
     expect(page).to have_content(@invoice_1.total_revenue_discounted)
-    save_and_open_page
+  end
+
+  it 'has a link to each discount applied' do
+    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
+    within "#Invoice-Item-#{@invoice_item_1.id}" do
+      expect(page).to have_content("Not Applicable")
+    end
+    within "#Invoice-Item-#{@invoice_item_2.id}" do
+      click_link(@invoice_item_2.find_discount.name)
+      expect(current_path).to eq(merchant_discount_path(@merchant, @discount_1))
+    end
   end
 end
