@@ -35,6 +35,18 @@ RSpec.describe Invoice do
       invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 5, unit_price: 1000, status: "packaged")
       expect(invoice_1.total_revenue_invoice_items).to eq(11000)
     end
+
+    it 'returns the total discounted revenue from an invoice' do
+      merchant_1 = Merchant.create!(name: "Cool Shirts")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue_discounted).to eq(13500)
+    end
   end
 
   describe 'class methods' do
