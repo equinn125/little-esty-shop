@@ -167,7 +167,7 @@ RSpec.describe Invoice do
       expect(invoice_1.total_revenue_discounted).to eq(13500)
     end
 
-    it 'applies the higher applicable discount' do
+    it 'applies the highest applicable discount' do
       merchant_1 = Merchant.create!(name: "John Sandman")
       discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
       discount_2 = merchant_1.discounts.create!(name:'Discount 2', percentage: 15, threshold: 5)
@@ -180,7 +180,7 @@ RSpec.describe Invoice do
       expect(invoice_1.total_revenue_discounted).to eq(12600)
     end
 
-    it 'example 4' do
+    it 'applies the higher percentage discount' do
       merchant_1 = Merchant.create!(name: "John Sandman")
       discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 5)
       discount_2 = merchant_1.discounts.create!(name:'Discount 2', percentage: 15, threshold: 10)
