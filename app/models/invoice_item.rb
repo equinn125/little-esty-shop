@@ -2,7 +2,6 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
   has_many :merchants, through: :item
-  has_many :discounts, through: :merchants
 
   validates_presence_of :status
 
@@ -17,7 +16,8 @@ class InvoiceItem < ApplicationRecord
 
 
   def find_discount
-    discounts
+    item.merchant
+    .discounts
     .where('threshold <= ?', quantity)
     .order(percentage: :desc)
     .first
