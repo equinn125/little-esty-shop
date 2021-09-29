@@ -138,4 +138,75 @@ RSpec.describe Invoice do
       expect(@invoice.total_revenue).to eq(120)
     end
   end
+
+  describe 'discount edge testing' do
+    it 'does not combine item quantites on an invoice' do
+      merchant_1 = Merchant.create!(name: "John Sandman")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 15)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue).to eq(16000)
+      expect(invoice_1.total_revenue_discounted).to eq(16000)
+    end
+
+    it 'only applies tp items that meet the threshold' do
+      merchant_1 = Merchant.create!(name: "John Sandman")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue).to eq(16000)
+      expect(invoice_1.total_revenue).to_not eq(invoice_1.total_revenue_discounted)
+      expect(invoice_1.total_revenue_discounted).to eq(13500)
+    end
+
+    it 'applies the higher applicable discount' do
+      merchant_1 = Merchant.create!(name: "John Sandman")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      discount_2 = merchant_1.discounts.create!(name:'Discount 2', percentage: 15, threshold: 5)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue_discounted).to eq(12600)
+    end
+
+    it 'example 4' do
+      merchant_1 = Merchant.create!(name: "John Sandman")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 5)
+      discount_2 = merchant_1.discounts.create!(name:'Discount 2', percentage: 15, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue_discounted).to eq(12000)
+    end
+
+    it 'only applies the merchants disounts to their own items' do
+      merchant_1 = Merchant.create!(name: "John Sandman")
+      merchant_2 = Merchant.create!(name: "Ron Swanson")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 5)
+      discount_2 = merchant_1.discounts.create!(name:'Discount 2', percentage: 15, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      item_3 = Item.create!(name: "blue shirt", description: "another shirt", unit_price: 1200, merchant_id: merchant_2.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      invoice_item3 = InvoiceItem.create!(item: item_3, invoice: invoice_1, quantity: 5, unit_price: 1000, status: "packaged")
+      expect(invoice_1.total_revenue_discounted).to eq(17000)
+    end
+  end
 end
