@@ -6,6 +6,9 @@ RSpec.describe 'Discount index' do
     @discount_1 = @merchant.discounts.create!(name:'Discount 1', percentage: 25, threshold: 4)
     @discount_2 = @merchant.discounts.create!(name:'Discount 2', percentage: 15, threshold: 2)
     @discount_3 = @merchant.discounts.create!(name:'Discount 3', percentage: 55, threshold: 15)
+    json = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+    to_return(status: 200, body: json)
     visit merchant_discounts_path(@merchant)
   end
   it 'shows the merchants bulk discounts' do

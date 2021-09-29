@@ -10,3 +10,10 @@
 </section>
 </ul>
 <% end %>
+<h2>Upcoming Holidays</h2>
+<% @holidays.each do |holiday| %>
+<ul>
+  <li> Holiday: <%= holiday.name %> </li>
+  <li> Date: <%= holiday.date %> </li>
+</ul>
+<%end%>
