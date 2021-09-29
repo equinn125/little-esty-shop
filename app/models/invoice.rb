@@ -17,6 +17,12 @@ class Invoice < ApplicationRecord
     items.sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
+  def total_merchant_revenue(merchant)
+      invoice_items.joins(:item)
+    .where('items.merchant_id =?', merchant)
+    .sum('invoice_items.quantity * invoice_items.unit_price')
+  end
+
   def self.incomplete_invoices_ids_ordered
     joins(:invoice_items).where.not("invoice_items.status = ?", 2).select(:id, :created_at).order(:created_at).distinct(:id)
   end
@@ -25,13 +31,21 @@ class Invoice < ApplicationRecord
     invoice_items.sum("invoice_items.quantity * invoice_items.unit_price")
   end
 
+  def merchant_invoice_items(merchant)
+    invoice_items.joins(item: :merchant)
+    .where('items.merchant_id = ?', merchant.id)
+  end
+
+  def total_merchant_revenue_discounted(merchant)
+    merch_ii = merchant_invoice_items(merchant)
+    merch_ii. sum do |ii|
+      ii.discount_unit_price
+    end
+  end
+
   def total_revenue_discounted
     invoice_items.sum do |ii|
-      if ii.find_discount
-        ii.discount_unit_price
-      else
-        ii.revenue
-      end
+      ii.discount_unit_price
     end
   end
 end

@@ -23,11 +23,19 @@ class InvoiceItem < ApplicationRecord
     .first
   end
 
+  def discount?
+    find_discount.present?
+  end
+
   def revenue
     (quantity * unit_price)
   end
 
   def discount_unit_price
+    if discount?
      revenue * (1- find_discount.percentage.fdiv(100))
+   else
+     revenue
+   end
   end
 end

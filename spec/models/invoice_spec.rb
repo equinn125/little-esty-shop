@@ -47,6 +47,52 @@ RSpec.describe Invoice do
       invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
       expect(invoice_1.total_revenue_discounted).to eq(13500)
     end
+
+    it 'returns the total revenue for a specified merchant' do
+      merchant_1 = Merchant.create!(name: "Cool Shirts")
+      merchant_2 = Merchant.create!(name: "Okay Shirts")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      item_3 = Item.create!(name: "Old shirt", description: "blue shirt", unit_price: 1100, merchant_id: merchant_2.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      invoice_item3 = InvoiceItem.create!(item: item_3, invoice: invoice_1, quantity: 7, unit_price: 1100, status: "packaged")
+      expect(invoice_1.total_merchant_revenue(merchant_1)).to eq(16000)
+      expect(invoice_1.total_merchant_revenue(merchant_2)).to eq(7700)
+    end
+
+    it 'returns the total discounted revenue for a specified merchant' do
+      merchant_1 = Merchant.create!(name: "Cool Shirts")
+      merchant_2 = Merchant.create!(name: "Okay Shirts")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      item_3 = Item.create!(name: "Old shirt", description: "blue shirt", unit_price: 1100, merchant_id: merchant_2.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      invoice_item3 = InvoiceItem.create!(item: item_3, invoice: invoice_1, quantity: 7, unit_price: 1100, status: "packaged")
+      expect(invoice_1.total_merchant_revenue_discounted(merchant_1)).to eq(13500)
+    end
+    it 'returns all invoice items a merchant has' do
+      merchant_1 = Merchant.create!(name: "Cool Shirts")
+      merchant_2 = Merchant.create!(name: "Okay Shirts")
+      discount_1 = merchant_1.discounts.create!(name:'Discount 1', percentage: 25, threshold: 10)
+      customer_1 = Customer.create(id: 1, first_name: 'Bob', last_name: 'Johnson')
+      invoice_1 = Invoice.create(id: 1, customer_id: customer_1.id, status: 'cancelled')
+      item_1 = Item.create!(name: "New shirt", description: "ugly shirt", unit_price: 1400, merchant_id: merchant_1.id)
+      item_2 = Item.create!(name: "Old shirt", description: "moderately ugly shirt", unit_price: 1200, merchant_id: merchant_1.id)
+      item_3 = Item.create!(name: "Old shirt", description: "blue shirt", unit_price: 1100, merchant_id: merchant_2.id)
+      invoice_item1 = InvoiceItem.create!(item: item_1, invoice: invoice_1, quantity: 5, unit_price: 1200, status: "packaged")
+      invoice_item2 = InvoiceItem.create!(item: item_2, invoice: invoice_1, quantity: 10, unit_price: 1000, status: "packaged")
+      invoice_item3 = InvoiceItem.create!(item: item_3, invoice: invoice_1, quantity: 7, unit_price: 1100, status: "packaged")
+      expect(invoice_1.merchant_invoice_items(merchant_1)).to eq([invoice_item1, invoice_item2])
+    end
+
   end
 
   describe 'class methods' do
@@ -91,6 +137,5 @@ RSpec.describe Invoice do
       @invoice_item = InvoiceItem.create!(item_id: @item.id, invoice_id: @invoice.id, quantity: 3, status: 0, unit_price: 40 )
       expect(@invoice.total_revenue).to eq(120)
     end
-
   end
 end
