@@ -13,7 +13,7 @@ RSpec.describe 'Merchant Invoice show page' do
     @discount_1 = @merchant.discounts.create!(name: 'Discount 1', percentage: 25, threshold: 4)
 
 
-    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
+    visit merchant_invoice_path(@merchant, @invoice_1)
   end
 
   it 'shows the invoice information of that merchant' do
@@ -26,8 +26,6 @@ RSpec.describe 'Merchant Invoice show page' do
 
 
   it 'returns the total revenue for the merchant' do
-    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
-
     expect(page).to have_content(@invoice_1.total_merchant_revenue(@merchant))
   end
 
@@ -54,14 +52,12 @@ RSpec.describe 'Merchant Invoice show page' do
   end
 
   it 'returns the total discounted revenue' do
-    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
     expect(page).to have_content(@invoice_1.total_merchant_revenue_discounted(@merchant))
   end
 
   it 'has a link to each discount applied' do
-    visit "/merchants/#{@merchant.id}/invoices/#{@invoice_1.id}"
     within "#Invoice-Item-#{@invoice_item_1.id}" do
-      expect(page).to have_content("Not Applicable")
+      expect(page).to have_content("Discount Not Applicable")
     end
     within "#Invoice-Item-#{@invoice_item_2.id}" do
       click_link(@invoice_item_2.find_discount.name)
