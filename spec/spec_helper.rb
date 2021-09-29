@@ -26,6 +26,9 @@ RSpec.configure do |config|
     json_response3 = File.read("spec/fixtures/pull_requests.json")
     stub_request(:get, "https://api.github.com/search/issues?q=repo:equinn125/little-esty-shop%20is:pull-request").
       to_return(status: 200, body: json_response3)
+    json_response4 = File.read('spec/fixtures/holidays.json')
+    stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+    to_return(status: 200, body: json_response4)
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
