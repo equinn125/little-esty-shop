@@ -6,8 +6,8 @@ RSpec.describe Discount do
   end
 
   describe 'validations' do
-    it {should validates_presence_of(:name)}
-    it {should validates_presence_of(:percentage)}
-    it {should validates_presence_of(:threshold)}
+    it {should validate_presence_of(:name)}
+    it {should validate_presence_of(:percentage)}
+    it {should validate_presence_of(:threshold)}
   end
 end
